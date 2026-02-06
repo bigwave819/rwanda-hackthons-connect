@@ -5,7 +5,6 @@ import {
     UnauthorizedException
 } from '@nestjs/common'
 import * as jwt from 'jsonwebtoken'
-import { Observable } from 'rxjs'
 
 @Injectable()
 export class JwtGuard implements CanActivate {
