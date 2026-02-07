@@ -1,6 +1,6 @@
 import { AutheResponseDto } from './dto/auth-response.dto';
 import { PrismaClient } from '@prisma/client';
-import { Injectable, NotFoundException } from '@nestjs/common';
+import { Injectable, NotFoundException, Delete } from '@nestjs/common';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { ChangePasswordDto } from './dto/change-password.dto';
 import * as bcrypt from 'bcrypt'
@@ -123,5 +123,21 @@ export class UserService {
 
         return { message: 'Password changed successfully' };
 
+    }
+
+    async remove(userId: string): Promise<{ message: string }>{
+        const user = await this.prisma.user.findUnique({
+            where: { id: userId }
+        })
+
+        if (!user) {
+            throw new NotFoundException("the user not found")
+        }
+
+        await this.prisma.user.delete({
+            where: { id: userId }
+        })
+
+        return { message : "User account deleted Successfully" };
     }
 }
