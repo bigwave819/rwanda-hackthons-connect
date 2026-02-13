@@ -1,14 +1,14 @@
 import { AutheResponseDto } from './dto/auth-response.dto';
-import { PrismaClient } from '@prisma/client';
 import { Injectable, NotFoundException, Delete } from '@nestjs/common';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { ChangePasswordDto } from './dto/change-password.dto';
 import * as bcrypt from 'bcrypt'
+import { PrismaService } from 'src/prisma/prisma.service';
 
 @Injectable()
 export class UserService {
     private readonly SALTROUND = 10;
-    constructor(private prisma: PrismaClient) { }
+    constructor(private prisma: PrismaService) { }
 
     async findOne(userId: string): Promise<AutheResponseDto> {
         const user = await this.prisma.user.findUnique({
