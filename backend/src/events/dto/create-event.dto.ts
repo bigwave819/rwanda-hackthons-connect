@@ -1,5 +1,5 @@
 import { HackerthonStatus } from "@prisma/client";
-import { IsDate, IsNotEmpty, IsString } from "class-validator";
+import { IsDate, IsEnum, IsNotEmpty, IsString } from "class-validator";
 
 
 export class CreateEventDto {
@@ -27,7 +27,7 @@ export class CreateEventDto {
     @IsNotEmpty()
     prize: string;
 
-    @IsString()
+    @IsEnum(HackerthonStatus)
     @IsNotEmpty()
     status: HackerthonStatus
 }

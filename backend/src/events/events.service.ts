@@ -2,6 +2,7 @@ import { Injectable, InternalServerErrorException, NotFoundException } from '@ne
 import { PrismaService } from 'src/prisma/prisma.service';
 import { CreateEventDto } from './dto/create-event.dto';
 import { EventResponseDto } from './dto/event-response.dto';
+import { HackerthonStatus } from '@prisma/client';
 
 @Injectable()
 export class EventsService {
@@ -87,6 +88,31 @@ export class EventsService {
             })
 
             return { message: "Event deleted Successfully" };
+        } catch (error) {
+            console.error(error);
+            throw new InternalServerErrorException("Internal Server Error")
+        }
+    }
+
+    async updateStatus(
+        eventId: string,
+        status: HackerthonStatus
+    ): Promise<{ message: string }> {
+        try {
+            const event = await this.prisma.event.findUnique({
+                where: { id: eventId }
+            })
+
+            if (!event) {
+                throw new NotFoundException("The event Not found")
+            }
+            await this.prisma.event.update({
+                where: { id: eventId },
+                data: {
+                    status: status
+                }
+            })
+            return { message: "The status updated successfully" };
         } catch (error) {
             console.error(error);
             throw new InternalServerErrorException("Internal Server Error")
