@@ -6,6 +6,7 @@ import { AuthModule } from './auth/auth.module';
 import { ConfigModule } from '@nestjs/config';
 import { UserModule } from './user/user.module';
 import { EventsModule } from './events/events.module';
+import { RegistrationsModule } from './registrations/registrations.module';
 
 @Module({
   imports: [
@@ -15,7 +16,7 @@ import { EventsModule } from './events/events.module';
     }),
     PrismaModule, 
     AuthModule, 
-    UserModule, EventsModule
+    UserModule, EventsModule, RegistrationsModule
   ],
   controllers: [AppController],
   providers: [AppService],
