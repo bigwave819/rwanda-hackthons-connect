@@ -1,8 +1,8 @@
-import { IsNotEmpty, IsUUID } from "class-validator";
+import { IsNotEmpty, IsString, IsUUID } from "class-validator";
 
 
 export class CreateRegistrationDto {
-    @IsUUID()
+    @IsString()
     @IsNotEmpty()
     eventId: string;
 }

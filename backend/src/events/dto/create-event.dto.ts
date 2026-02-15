@@ -1,4 +1,5 @@
 import { HackerthonStatus } from "@prisma/client";
+import { Type } from "class-transformer";
 import { IsDate, IsEnum, IsNotEmpty, IsString } from "class-validator";
 
 
@@ -11,6 +12,7 @@ export class CreateEventDto {
     @IsNotEmpty()
     thumbnail: string;
 
+    @Type(() => Date)
     @IsDate()
     @IsNotEmpty()
     date: Date;

@@ -9,35 +9,31 @@ export class EventsService {
     constructor(private prisma: PrismaService) { }
 
     async create(createEventDto: CreateEventDto): Promise<EventResponseDto> {
-        try {
-            const createdEvent = await this.prisma.event.create({
-                data: {
-                    title: createEventDto.title,
-                    thumbnail: createEventDto.thumbnail,
-                    date: createEventDto.date,
-                    description: createEventDto.description,
-                    partners: createEventDto.partners,
-                    status: createEventDto.status,
-                    prize: createEventDto.prize
-                },
-            });
 
-            const eventResponse: EventResponseDto = {
-                id: createdEvent.id,
-                title: createdEvent.title,
-                thumbnail: createdEvent.thumbnail,
-                date: createdEvent.date,
-                description: createdEvent.description,
-                partners: createdEvent.partners,
-                status: createdEvent.status,
-                prize: createdEvent.prize,
-            };
+        const createdEvent = await this.prisma.event.create({
+            data: {
+                title: createEventDto.title,
+                thumbnail: createEventDto.thumbnail,
+                date: createEventDto.date,
+                description: createEventDto.description,
+                partners: createEventDto.partners,
+                status: createEventDto.status,
+                prize: createEventDto.prize
+            },
+        });
 
-            return eventResponse;
-        } catch (error) {
-            console.log(error);
-            throw new InternalServerErrorException('Internal Server Error');
-        }
+        const eventResponse: EventResponseDto = {
+            id: createdEvent.id,
+            title: createdEvent.title,
+            thumbnail: createdEvent.thumbnail,
+            date: createdEvent.date,
+            description: createdEvent.description,
+            partners: createdEvent.partners,
+            status: createdEvent.status,
+            prize: createdEvent.prize,
+        };
+
+        return eventResponse;
     }
 
     async findAll(): Promise<EventResponseDto[]> {

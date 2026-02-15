@@ -1,4 +1,4 @@
-import { ConflictException, Injectable, InternalServerErrorException, UnauthorizedException } from '@nestjs/common';
+import { BadRequestException, ConflictException, HttpException, Injectable, InternalServerErrorException, NotFoundException, UnauthorizedException } from '@nestjs/common';
 import { PrismaService } from 'src/prisma/prisma.service';
 import { RegisterDto } from './dto/register.dto';
 import * as bcrypt from 'bcrypt'
@@ -64,6 +64,9 @@ export class AuthService {
             };
         } catch (error) {
             console.error('Error during user registration:', error);
+            if (error instanceof HttpException) {
+                throw error;
+            }
             throw new InternalServerErrorException(
                 'An error occurred during registration',
             );
@@ -79,8 +82,14 @@ export class AuthService {
                 where: { email }
             })
 
-            if (!user || !(await bcrypt.compare(password, user.password))) {
-                throw new UnauthorizedException("Email or Password is incorrect")
+            if (!user) {
+                throw new NotFoundException("the user not found")
+            }
+
+            const passwordMatch = await bcrypt.compare(password, user.password)
+
+            if (!passwordMatch) {
+                throw new BadRequestException("the password and email is incorect")
             }
 
             const token = this.signToken(user)
@@ -97,6 +106,9 @@ export class AuthService {
 
         } catch (error) {
             console.error('Error during user registration:', error);
+            if (error instanceof HttpException) {
+                throw error;
+            }
             throw new InternalServerErrorException(
                 'An error occurred during registration',
             );

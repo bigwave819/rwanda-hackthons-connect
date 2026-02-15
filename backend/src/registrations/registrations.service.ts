@@ -12,13 +12,24 @@ export class RegistrationsService {
         userId: string,
         createRegistrationDto: CreateRegistrationDto
     ): Promise<RegistrationsResponseDto> {
-        const exist = await this.prisma.user.findUnique({
-            where: { id: userId }
-        })
+
+        if (!userId) {
+            throw new BadRequestException("User not Found")
+        }
+        
+        const exist = await this.prisma.registration.findUnique({
+            where: {
+                userId_eventId: {
+                    userId,
+                    eventId: createRegistrationDto.eventId,
+                },
+            },
+        });
 
         if (exist) {
-            throw new BadRequestException("the user already exists")
+            throw new BadRequestException("You already registered for this event");
         }
+
 
         const create = await this.prisma.registration.create({
             data: {
@@ -29,7 +40,6 @@ export class RegistrationsService {
 
         return create as RegistrationsResponseDto
     }
-
 
     async findMe(userId: string) {
         try {
@@ -82,7 +92,6 @@ export class RegistrationsService {
         }
     }
 
-    
     async getEventRegistrations(eventId: string): Promise<RegistrationsResponseDto[]> {
         try {
             const registrations = await this.prisma.registration.findMany({
