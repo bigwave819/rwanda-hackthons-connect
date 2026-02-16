@@ -1,20 +1,50 @@
-import { Body, Controller, Post } from '@nestjs/common';
+import { Body, Controller, Post, Res } from '@nestjs/common';
+import type { Response } from 'express';
 import { AuthService } from './auth.service';
 import { RegisterDto } from './dto/register.dto';
 import { LoginDto } from './dto/login.dto';
-import { AuthResponse } from './dto/auth-response.dto';
 
 @Controller('auth')
 export class AuthController {
-    constructor(private authService: AuthService) {}
+  constructor(private authService: AuthService) {}
 
-    @Post('/register')
-    async register(@Body() registerDto: RegisterDto) {
-        return await this.authService.register(registerDto)
-    }
+  @Post('/register')
+  async register(
+    @Body() registerDto: RegisterDto,
+    @Res({ passthrough: true }) res: Response,
+  ) {
+    const data = await this.authService.register(registerDto);
 
-    @Post('/login')
-    async login(@Body() loginDto: LoginDto): Promise<AuthResponse> {
-        return await this.authService.login(loginDto)
-    }
+    res.cookie("access_token", data.token, {
+      httpOnly: true,
+      secure: false, // TRUE in production HTTPS
+      sameSite: "lax",
+      maxAge: 1000 * 60 * 60 * 24,
+    });
+
+    return { user: data.user };
+  }
+
+  @Post('/login')
+  async login(
+    @Body() loginDto: LoginDto,
+    @Res({ passthrough: true }) res: Response,
+  ) {
+    const data = await this.authService.login(loginDto);
+
+    res.cookie("access_token", data.token, {
+      httpOnly: true,
+      secure: false,
+      sameSite: "lax",
+      maxAge: 1000 * 60 * 60 * 24,
+    });
+
+    return { user: data.user };
+  }
+
+  @Post('/logout')
+  logout(@Res({ passthrough: true }) res: Response) {
+    res.clearCookie("access_token");
+    return { message: "Logged out" };
+  }
 }
