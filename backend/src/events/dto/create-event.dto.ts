@@ -28,8 +28,4 @@ export class CreateEventDto {
     @IsString()
     @IsNotEmpty()
     prize: string;
-
-    @IsEnum(HackerthonStatus)
-    @IsNotEmpty()
-    status: HackerthonStatus
 }

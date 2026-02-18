@@ -24,9 +24,9 @@ async function bootstrap() {
       },
       forbidUnknownValues: true,
 
-      exceptionFactory: (errors) => {
-        return new BadRequestException("All fields are required");
-      },
+      // exceptionFactory: (errors) => {
+      //   return new BadRequestException("All fields are required");
+      // },
     })
   )
 

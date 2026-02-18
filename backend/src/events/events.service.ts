@@ -17,8 +17,8 @@ export class EventsService {
                 date: createEventDto.date,
                 description: createEventDto.description,
                 partners: createEventDto.partners,
-                status: createEventDto.status,
-                prize: createEventDto.prize
+                prize: createEventDto.prize,
+                status: HackerthonStatus.OPEN
             },
         });
 

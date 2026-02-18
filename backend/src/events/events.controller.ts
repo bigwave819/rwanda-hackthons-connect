@@ -14,6 +14,7 @@ export class EventsController {
 
     @Post()
     @Roles(Role.ADMIN)
+    @HttpCode(HttpStatus.OK)
     async create (
         @Body() createEventDto:  CreateEventDto
     ): Promise<EventResponseDto> {
@@ -37,9 +38,9 @@ export class EventsController {
     @HttpCode(HttpStatus.OK)
     async updateStatus(
         @Param('id') id: string,
-        @Body() status: CreateEventDto
+        @Body() status: HackerthonStatus
     ) {
-        return this.eventsService.updateStatus(id, status.status)
+        return this.eventsService.updateStatus(id, status)
     }
 
     @Delete(':id')

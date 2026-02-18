@@ -48,7 +48,7 @@ model Event {
   date        DateTime
   description String
   partners    String
-  status      HackerthonStatus
+  status      HackerthonStatus @default(OPEN)
   prize       String
 
   registrations Registration[]
