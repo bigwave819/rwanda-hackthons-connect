@@ -13,7 +13,8 @@ export const useEvents = () => {
         queryFn: async () => {
             const { data } = await AxiosInstance.get('/events');
             return data
-        }
+        },
+        retry: false
     });
 
     const createEventMutation = useMutation({

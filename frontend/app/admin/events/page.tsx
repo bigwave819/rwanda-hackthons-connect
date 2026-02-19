@@ -8,10 +8,10 @@ function AdminEventsPage() {
       {/* HEADER */}
       <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
         <div>
-          <h1 className="text-3xl font-bold text-black">
+          <h1 className="text-3xl font-bold">
             Browse and Manage Events
           </h1>
-          <p className="text-gray-500">
+          <p className="text-muted-foreground">
             On this page you can browse and search events
           </p>
         </div>
@@ -29,7 +29,7 @@ function AdminEventsPage() {
 
       {/* EVENTS SECTION */}
       <div className="">
-        <div className="flex justify-end">
+        <div className="flex justify-end w-full">
 
           <AddEvents />
         </div>

@@ -36,19 +36,33 @@ export class EventsService {
         return eventResponse;
     }
 
-    async findAll(): Promise<EventResponseDto[]> {
+    async findAll(page = 1, limit = 20): Promise<EventResponseDto[]> {
         try {
-            const events = await this.prisma.event.findMany();
+            const events = await this.prisma.event.findMany({
+                skip: (page - 1) * limit,
+                take: limit,
 
-            if (events.length === 0) {
-                throw new NotFoundException("No events available")
-            }
+                orderBy: {
+                    createdAt: "desc",
+                },
 
+                select: {
+                    id: true,
+                    title: true,
+                    thumbnail: true,
+                    date: true,
+                    description: true,
+                    partners: true,
+                    status: true,
+                    prize: true,
+                },
+            });
 
             return events as EventResponseDto[];
+
         } catch (error) {
             console.error(error);
-            throw new InternalServerErrorException("Internal server error")
+            throw new InternalServerErrorException("Internal server error");
         }
     }
 

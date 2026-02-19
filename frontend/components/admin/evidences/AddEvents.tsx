@@ -117,7 +117,7 @@ export default function AddEvents() {
   return (
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild>
-        <button className="flex items-center gap-2 px-6 py-3 rounded-full bg-black text-white hover:bg-gray-800 transition">
+        <button className="flex items-center gap-2 px-6 py-3 rounded-full bg-black dark:bg-gray-300 dark:text-gray-900 text-white hover:bg-gray-800 transition">
           <Plus size={18} /> Add Hackathon
         </button>
       </DialogTrigger>
