@@ -1,5 +1,6 @@
 import { Search } from "lucide-react";
 import AddEvents from "@/components/admin/evidences/AddEvents";
+import EventView from "@/components/admin/evidences/ViewEvents";
 
 function AdminEventsPage() {
   return (
@@ -27,14 +28,12 @@ function AdminEventsPage() {
       </div>
 
       {/* EVENTS SECTION */}
-      <div className="bg-white border rounded-2xl p-6 shadow-sm">
-        <div className="flex justify-between items-center">
-          <h2 className="text-xl font-semibold text-black">
-            View All Events
-          </h2>
+      <div className="">
+        <div className="flex justify-end">
 
           <AddEvents />
         </div>
+        <EventView />
       </div>
     </div>
   );

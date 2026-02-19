@@ -1,3 +1,5 @@
+'use client'
+
 import { Event, EventStatus } from "@/types"
 import AxiosInstance from "@/utils/axios"
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query"
@@ -6,7 +8,7 @@ import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query"
 export const useEvents = () => {
     const queryClient = useQueryClient()
 
-    const { data: events, isLoading, isError } = useQuery<Event>({
+    const { data: events = [], isLoading, isError, error } = useQuery<Event[]>({
         queryKey: ['events'],
         queryFn: async () => {
             const { data } = await AxiosInstance.get('/events');
@@ -54,6 +56,7 @@ export const useEvents = () => {
     events,
     isLoading,
     isError,
+    error,
 
     createEvent: createEventMutation.mutate,
     isCreating: createEventMutation.isPending,
