@@ -1,6 +1,6 @@
 
 
-export type EventStatus = "UPCOMING" | "ONGOING" | "COMPLETED";
+export type EventStatus = "OPEN" | "CLOSED" | "FINISHED";
 
 export type Event = {
   id: string;

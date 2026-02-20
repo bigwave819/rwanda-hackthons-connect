@@ -5,7 +5,7 @@ import AxiosInstance from "@/utils/axios"
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query"
 
 
-export const useEvents = () => {
+export const useEvents = (id?: string) => {
     const queryClient = useQueryClient()
 
     const { data: events = [], isLoading, isError, error } = useQuery<Event[]>({
@@ -14,7 +14,8 @@ export const useEvents = () => {
             const { data } = await AxiosInstance.get('/events');
             return data
         },
-        retry: false
+        retry: false,
+        enabled: !id
     });
 
     const createEventMutation = useMutation({
@@ -53,11 +54,34 @@ export const useEvents = () => {
     },
   });
 
+  /* ================= FETCH SINGLE EVENT ================= */
+  const {
+    data: event,
+    isLoading: isSingleLoading,
+    isError: isSingleError,
+  } = useQuery<Event>({
+    queryKey: ["event", id],
+    queryFn: async () => {
+      const { data } = await AxiosInstance.get(`/events/${id}`);
+      console.log(data);
+      
+      return data;
+    },
+    enabled: !!id,
+    retry: false,
+  });
+
+
   return {
     events,
     isLoading,
     isError,
     error,
+
+    /* single */
+    event,
+    isSingleLoading,
+    isSingleError,
 
     createEvent: createEventMutation.mutate,
     isCreating: createEventMutation.isPending,

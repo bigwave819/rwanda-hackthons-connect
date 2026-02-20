@@ -8,11 +8,12 @@ import { Roles } from 'src/common/decorators/role.decorator';
 import { HackerthonStatus, Role } from '@prisma/client';
 
 @Controller('events')   
-@UseGuards(JwtGuard, RolesGuard)
+
 export class EventsController {
     constructor(private eventsService: EventsService) {}
 
     @Post()
+    @UseGuards(JwtGuard, RolesGuard)
     @Roles(Role.ADMIN)
     @HttpCode(HttpStatus.OK)
     async create (
@@ -34,6 +35,7 @@ export class EventsController {
     }
 
     @Patch(':id')
+    @UseGuards(JwtGuard, RolesGuard)
     @Roles(Role.ADMIN)
     @HttpCode(HttpStatus.OK)
     async updateStatus(
@@ -44,6 +46,7 @@ export class EventsController {
     }
 
     @Delete(':id')
+    @UseGuards(JwtGuard, RolesGuard)
     @Roles(Role.ADMIN)
     @HttpCode(HttpStatus.OK)
     async delete(
