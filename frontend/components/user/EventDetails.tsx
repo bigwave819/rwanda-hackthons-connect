@@ -1,12 +1,20 @@
 "use client";
 
 import { useEvents } from "@/hooks/useEvents";
+import { useRegistrations } from "@/hooks/useRegistrations";
 import Image from "next/image";
+import { Spinner } from "../ui/spinner";
 
 function EventDetails({ id }: { id: string }) {
   const { event, isSingleLoading, isSingleError } = useEvents(id);
 
+  const { createRegistration, isCreatingRegistration  } = useRegistrations()
+
   console.log(event);
+
+  const handleRegister = () => {
+    createRegistration(id);
+  };
 
 
   const statusColors = {
@@ -100,8 +108,12 @@ function EventDetails({ id }: { id: string }) {
         </div>
 
         {/* CTA */}
-        <button className="bg-black text-white px-6 py-3 rounded-lg hover:scale-105 transition">
-          Register for Event
+        <button 
+          onClick={handleRegister}
+          className="bg-black text-white px-6 py-3 rounded-lg hover:scale-105 transition cursor-pointer"
+          disabled={isCreatingRegistration}
+        >
+          {isCreatingRegistration ? <Spinner /> : "Register"}
         </button>
       </div>
     </div>

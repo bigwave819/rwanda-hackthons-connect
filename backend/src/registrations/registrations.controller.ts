@@ -3,6 +3,8 @@ import {
     Controller,
     Delete,
     Get,
+    HttpCode,
+    HttpStatus,
     Param,
     Post,
     Req,
@@ -22,6 +24,7 @@ export class RegistrationsController {
     constructor(private registrationsService: RegistrationsService) { }
 
     @Post()
+    @HttpCode(HttpStatus.CREATED)
     async create(
         @Req() req: { user: { id: string; role: string; email: string } },
         @Body() createRegistrationDto: CreateRegistrationDto
