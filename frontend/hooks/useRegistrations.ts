@@ -1,10 +1,10 @@
 "use client";
 
-import { Registrations } from "@/types";
+import { Registrations, UserRegisteredForEvent } from "@/types";
 import AxiosInstance from "@/utils/axios";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 
-export const useRegistrations = () => {
+export const useRegistrations = (eventId?: string) => {
   const queryClient = useQueryClient();
 
   const { data: registrations, error, isLoading } = useQuery<Registrations[]>({
@@ -13,6 +13,18 @@ export const useRegistrations = () => {
       const { data } = await AxiosInstance.get('registrations/me')
       return data
     }
+  })
+
+  const { data: userRegistered, isLoading: usersLoading, error: usersError } = useQuery<UserRegisteredForEvent[]>({
+    queryKey: ['users'],
+   queryFn: async () => {
+      if (!eventId) return [];
+      const { data } = await AxiosInstance.get(
+        `/registrations/event/${eventId}`
+      );
+      return data;
+    },
+    enabled: !!eventId,
   })
 
   const createRegistrationMutation = useMutation({
@@ -27,6 +39,11 @@ export const useRegistrations = () => {
     registrations,
     error,
     isLoading,
+
+    userRegistered,
+    usersLoading,
+    usersError,
+
     createRegistration: createRegistrationMutation.mutate,
     isCreatingRegistration: createRegistrationMutation.isPending,
     errorInCreatingRegistration: createRegistrationMutation.isError,

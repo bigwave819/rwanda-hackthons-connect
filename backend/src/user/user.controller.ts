@@ -3,6 +3,8 @@ import {
   Controller,
   Delete,
   Get,
+  HttpCode,
+  HttpStatus,
   Param,
   Put,
   Req,
@@ -31,6 +33,7 @@ export class UserController {
 
   // USER ONLY
   @Get("profile")
+  @HttpCode(HttpStatus.OK)
   async getProfile(@Req() req) {
     return this.userService.findOne(req.user.id);
   }
@@ -46,6 +49,7 @@ export class UserController {
 
   // 👤 CURRENT USER
   @Delete('me')
+  @HttpCode(HttpStatus.OK)
   async remove(@GetUser() user: any) {
     return this.userService.remove(user.id);
   }

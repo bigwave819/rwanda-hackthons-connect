@@ -38,6 +38,7 @@ export class RegistrationsController {
     }
 
     @Get('me')
+    @HttpCode(HttpStatus.OK)
     async findMe(
         @Req() req: { user: { id: string; role: string; email: string } }
     ) {

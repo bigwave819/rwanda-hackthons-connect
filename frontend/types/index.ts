@@ -27,6 +27,19 @@ export type User = {
   updatedAt: string;
 }
 
+export type UserRegisteredForEvent = {
+  id: string;
+  userId: string;
+  eventId: string;
+  createdAt: string;
+  updatedAt: string;
+  user: {
+    id: string;
+    fullName: string;
+    email: string;
+  };
+}
+
 export type Registrations = {
   id: string;
   title: string;

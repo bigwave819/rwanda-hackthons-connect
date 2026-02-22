@@ -1,4 +1,5 @@
 import axios from "axios";
+import { redirect } from "next/navigation";
 import { create } from "zustand";
 import { persist } from "zustand/middleware";
 
@@ -80,6 +81,7 @@ export const useAuthStore = create<AuthStore>()(
       logout: async () => {
         await axiosInstance.post("/auth/logout");
         set({ user: null });
+        redirect("/")
       },
     }),
     {
