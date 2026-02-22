@@ -51,7 +51,6 @@ export class RegistrationsService {
                         select: {
                             id: true,
                             title: true,
-                            thumbnail: true,
                             date: true,
                             status: true,
                             prize: true,

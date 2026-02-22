@@ -5,6 +5,7 @@ import {
   Get,
   Param,
   Put,
+  Req,
   UseGuards,
 } from '@nestjs/common';
 import { UserService } from './user.service';
@@ -18,7 +19,7 @@ import { GetUser } from '../common/decorators/get-user.decorator';
 @Controller('user')
 @UseGuards(JwtGuard)
 export class UserController {
-  constructor(private readonly userService: UserService) {}
+  constructor(private readonly userService: UserService) { }
 
   // 🔐 ADMIN ONLY
   @Get()
@@ -28,12 +29,10 @@ export class UserController {
     return this.userService.findAll();
   }
 
-  // 🔐 ADMIN ONLY
-  @Get(':id')
-  @UseGuards(RolesGuard)
-  @Roles(Role.ADMIN)
-  async findOne(@Param('id') id: string) {
-    return this.userService.findOne(id);
+  // USER ONLY
+  @Get("profile")
+  async getProfile(@Req() req) {
+    return this.userService.findOne(req.user.id);
   }
 
   // 👤 CURRENT USER

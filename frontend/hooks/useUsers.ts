@@ -15,10 +15,27 @@ export const useUsers = () => {
         }
     });
 
+    const { 
+            data: user,
+            isLoading: isSingleLoading , 
+            error: isSingleError
+        } = useQuery<User>({
+        queryKey: ['user'],
+        queryFn: async () => {
+            const { data } = await AxiosInstance.get('/user/profile')
+            return data
+        }
+    })
+
 
     return {
         isLoading,
         error,
-        users
+        users,
+
+        //single User
+        user,
+        isSingleLoading,
+        isSingleError
     }
 }

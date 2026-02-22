@@ -26,3 +26,11 @@ export type User = {
   createdAt: string;
   updatedAt: string;
 }
+
+export type Registrations = {
+  id: string;
+  title: string;
+  date: string;
+  status: EventStatus;
+  prize: string;
+};
