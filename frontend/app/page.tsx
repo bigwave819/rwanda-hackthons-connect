@@ -6,10 +6,6 @@ import { useEvents } from "@/hooks/useEvents";
 export default function Home() {
   const { events, isLoading, error } = useEvents();
 
-  // Debug: Log what events actually is
-  console.log("Home page - events:", events);
-  console.log("Is events an array?", Array.isArray(events));
-
   if (error instanceof Error) {
     return (
       <div className="bg-red-100 text-red-600 p-4 rounded-lg text-center">
