@@ -4,17 +4,27 @@ import Footer from "@/components/layout/Footer";
 import { useEvents } from "@/hooks/useEvents";
 
 export default function Home() {
-  const { events, isLoading } = useEvents();
+  const { events, isLoading, error } = useEvents();
 
-  const featured = events?.slice(0, 6) || [];
+  // Debug: Log what events actually is
+  console.log("Home page - events:", events);
+  console.log("Is events an array?", Array.isArray(events));
+
+  if (error instanceof Error) {
+    return (
+      <div className="bg-red-100 text-red-600 p-4 rounded-lg text-center">
+        Failed to load events: {error.message}
+      </div>
+    );
+  }
+
+  // SAFE: Ensure events is an array before trying to use array methods
+  const featured = Array.isArray(events) ? events.slice(0, 6) : [];
 
   return (
     <div className="min-h-screen">
       {/* HERO SECTION */}
       <section className="relative text-center py-24 px-6">
-        {/* background glow */}
-        <div className="absolute inset-0"></div>
-
         <div className="relative max-w-4xl mx-auto space-y-6">
           <h1 className="text-4xl md:text-5xl font-extrabold leading-tight">
             Start Exploring Thousands of
@@ -31,7 +41,6 @@ export default function Home() {
             opportunities to build your career.
           </p>
 
-          {/* CTA */}
           <button className="bg-black text-white px-6 py-3 rounded-lg hover:scale-105 transition">
             Explore Events
           </button>
@@ -61,36 +70,40 @@ export default function Home() {
 
         {!isLoading && (
           <div className="grid md:grid-cols-3 gap-6">
-            {featured.map((event) => (
-              <div
-                key={event.id}
-                className="bg-white shadow rounded-xl overflow-hidden hover:shadow-lg transition"
-              >
-                <img
-                  src={event.thumbnail}
-                  className="h-40 w-full object-cover"
-                />
-
-                <div className="p-4 space-y-2">
-                  <h3 className="font-semibold text-lg">
-                    {event.title}
-                  </h3>
-
-                  <p className="text-sm text-gray-600 line-clamp-2">
-                    {event.description}
-                  </p>
-
-                  <p className="text-sm text-gray-500">
-                    📅 {new Date(event.date).toLocaleDateString()}
-                  </p>
+            {featured.length > 0 ? (
+              featured.map((event) => (
+                <div
+                  key={event.id}
+                  className="bg-white shadow rounded-xl overflow-hidden hover:shadow-lg transition"
+                >
+                  <img
+                    src={event.thumbnail}
+                    alt={event.title}
+                    className="h-40 w-full object-cover"
+                  />
+                  <div className="p-4 space-y-2">
+                    <h3 className="font-semibold text-lg">
+                      {event.title}
+                    </h3>
+                    <p className="text-sm text-gray-600 line-clamp-2">
+                      {event.description}
+                    </p>
+                    <p className="text-sm text-gray-500">
+                      📅 {new Date(event.date).toLocaleDateString()}
+                    </p>
+                  </div>
                 </div>
+              ))
+            ) : (
+              <div className="col-span-3 text-center text-gray-500 py-10">
+                No events found
               </div>
-            ))}
+            )}
           </div>
         )}
       </section>
 
-      {/* WHY USE OUR PLATFORM */}
+      {/* Rest of your component remains the same */}
       <section className="py-20">
         <div className="max-w-6xl mx-auto px-6 grid md:grid-cols-3 gap-10 text-center">
           <div className="space-y-3">
@@ -100,7 +113,6 @@ export default function Home() {
               Discover hackathons and events that boost your skills.
             </p>
           </div>
-
           <div className="space-y-3">
             <div className="text-4xl">🤝</div>
             <h3 className="font-bold text-xl">Connect</h3>
@@ -108,7 +120,6 @@ export default function Home() {
               Meet developers, startups, and innovators.
             </p>
           </div>
-
           <div className="space-y-3">
             <div className="text-4xl">🏆</div>
             <h3 className="font-bold text-xl">Win Prizes</h3>

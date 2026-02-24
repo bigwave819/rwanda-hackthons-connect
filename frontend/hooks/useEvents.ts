@@ -12,6 +12,7 @@ export const useEvents = (id?: string) => {
         queryKey: ['events'],
         queryFn: async () => {
             const { data } = await AxiosInstance.get('/events');
+            console.log("DATA: ", data);    
             return data
         },
         retry: false,
