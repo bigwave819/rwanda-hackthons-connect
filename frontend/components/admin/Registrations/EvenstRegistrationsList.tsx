@@ -11,7 +11,7 @@ import {
 import { useRegistrations } from "@/hooks/useRegistrations";
 
 function EvenstRegistrationsList({ id }: { id: string }) {
-  const { usersRegistered, usersLoading, usersError } = useRegistrations(id);
+  const { userRegistered, usersLoading, usersError } = useRegistrations(id);
 
   /* ================= SKELETON LOADING ================= */
   if (usersLoading) {
@@ -52,14 +52,14 @@ function EvenstRegistrationsList({ id }: { id: string }) {
         </TableHeader>
 
         <TableBody>
-          {usersRegistered?.length === 0 ? (
+          {userRegistered?.length === 0 ? (
             <TableRow>
               <TableCell colSpan={2} className="text-center py-10 text-muted-foreground">
                 No users registered yet
               </TableCell>
             </TableRow>
           ) : (
-            usersRegistered?.map((item) => (
+            userRegistered?.map((item) => (
               <TableRow key={item.id}>
                 <TableCell className="font-medium">
                   {item.user.fullName}

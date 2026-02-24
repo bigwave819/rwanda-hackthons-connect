@@ -9,7 +9,7 @@ export default function Home() {
   const featured = events?.slice(0, 6) || [];
 
   return (
-    <div className="bg-gray-50 min-h-screen">
+    <div className="min-h-screen">
       {/* HERO SECTION */}
       <section className="relative text-center py-24 px-6">
         {/* background glow */}
@@ -91,7 +91,7 @@ export default function Home() {
       </section>
 
       {/* WHY USE OUR PLATFORM */}
-      <section className="bg-white py-20">
+      <section className="py-20">
         <div className="max-w-6xl mx-auto px-6 grid md:grid-cols-3 gap-10 text-center">
           <div className="space-y-3">
             <div className="text-4xl">🚀</div>

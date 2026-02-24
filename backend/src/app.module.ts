@@ -7,6 +7,8 @@ import { ConfigModule } from '@nestjs/config';
 import { UserModule } from './user/user.module';
 import { EventsModule } from './events/events.module';
 import { RegistrationsModule } from './registrations/registrations.module';
+import { ScheduleModule } from '@nestjs/schedule';
+import { KeepAliveModule } from './keep-alive/keep-alive.module';
 
 @Module({
   imports: [
@@ -14,9 +16,13 @@ import { RegistrationsModule } from './registrations/registrations.module';
       isGlobal: true,
       envFilePath: '.env'
     }),
+    ScheduleModule.forRoot(),
     PrismaModule, 
     AuthModule, 
-    UserModule, EventsModule, RegistrationsModule
+    UserModule, 
+    EventsModule, 
+    RegistrationsModule,
+    KeepAliveModule
   ],
   controllers: [AppController],
   providers: [AppService],

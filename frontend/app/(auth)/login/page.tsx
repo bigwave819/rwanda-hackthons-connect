@@ -99,7 +99,7 @@ export default function LoginPage() {
 
           <button
             disabled={isLoading}
-            className="w-full bg-black text-white py-3 rounded-full hover:bg-black/80 transition"
+            className="w-full flex justify-center text-center bg-black text-white py-3 rounded-full hover:bg-black/80 transition"
           >
             {isLoading ? <Spinner /> : "Login"}
           </button>
