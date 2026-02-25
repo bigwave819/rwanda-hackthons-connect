@@ -11,7 +11,7 @@ export class KeepAliveService {
   @Cron('0 */13 * * * *')
   async keepAlive() {
     try {
-      await this.httpService.axiosRef.get(`${process.env.APP_URL}/health`);
+      await this.httpService.axiosRef.get(`${process.env.APP_URL}`);
       this.logger.log('Keep-alive ping sent successfully');
     } catch (error) {
       this.logger.error('Keep-alive ping failed', error.message);
