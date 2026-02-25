@@ -4,9 +4,13 @@ import { AuthService } from './auth.service';
 import { RegisterDto } from './dto/register.dto';
 import { LoginDto } from './dto/login.dto';
 
+
+const isProd = process.env.NODE_ENV === "production";
 @Controller('auth')
 export class AuthController {
-  constructor(private authService: AuthService) {}
+  constructor(private authService: AuthService) { };
+
+
 
   @Post('/register')
   async register(
@@ -17,8 +21,8 @@ export class AuthController {
 
     res.cookie("access_token", data.token, {
       httpOnly: true,
-      secure: true,
-      sameSite: "none",
+      secure: isProd,      // ⭐ KEY FIX
+      sameSite: isProd ? "none" : "lax",
       maxAge: 1000 * 60 * 60 * 24,
     });
 
@@ -34,8 +38,8 @@ export class AuthController {
 
     res.cookie("access_token", data.token, {
       httpOnly: true,
-      secure: true,
-      sameSite: "none",
+      secure: isProd,      // ⭐ KEY FIX
+      sameSite: isProd ? "none" : "lax",
       maxAge: 1000 * 60 * 60 * 24,
     });
 
