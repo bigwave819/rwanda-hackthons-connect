@@ -40,17 +40,21 @@ export default function LoginPage() {
     // Redirect based on role
     const currentUser = useAuthStore.getState().user;
 
-    if (currentUser?.role === "ADMIN") {
-      router.push("/admin/dashboard");
-    } else {
-      router.push("/");
-    }
+    setTimeout(() => {
+      const currentUser = useAuthStore.getState().user;
+
+      if (currentUser?.role === "ADMIN") {
+        router.push("/admin/dashboard");
+      } else {
+        router.push("/");
+      }
+    }, 100);
   };
 
   return (
     <div className="w-full min-h-screen flex items-center justify-center bg-gray-50">
       <div className="rounded-2xl p-8 w-full max-w-md space-y-6 bg-white shadow">
-        
+
         <div className="text-center">
           <h1 className="font-bold text-3xl">Login</h1>
           <p className="text-gray-500 text-sm mt-2">
@@ -65,7 +69,7 @@ export default function LoginPage() {
         )}
 
         <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
-          
+
           {/* Email */}
           <div className="relative">
             <Mail className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400" />

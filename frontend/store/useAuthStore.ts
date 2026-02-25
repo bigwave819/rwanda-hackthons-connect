@@ -66,6 +66,11 @@ export const useAuthStore = create<AuthStore>()(
             password,
           });
 
+          // Ensure the browser actually received the cookie
+          if (!res.headers['set-cookie']) {
+            console.warn("Warning: no Set-Cookie header detected");
+          }
+
           set({ user: res.data.user, isLoading: false });
           return true;
         } catch {
